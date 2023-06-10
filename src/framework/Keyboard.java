@@ -703,8 +703,7 @@ public class Keyboard implements KeyListener {
 		//	of modifiers in case the caller uses an old mask 
 		//	from KeyEvent class instead of the extends mask
 		//	values.
-		this.modifiers = 	this.modifiers 		| 
-							e.getModifiersEx();
+		this.modifiers = this.modifiers | e.getModifiersEx();
 	}
 	
 }

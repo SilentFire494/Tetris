@@ -1,17 +1,25 @@
 package game;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 
 import framework.Keyboard;
 import framework.Scene;
+import framework.Screen;
 
 public class TitleScene extends Scene
 {
 
+    private Board board;
+
     public TitleScene(String name) 
     {
         super(name);
+        this.board = new Board();
     }
+
 
     @Override
     public void load() 
@@ -28,7 +36,7 @@ public class TitleScene extends Scene
     @Override
     public void enter() 
     {
-        // TODO Auto-generated method stub
+        System.out.println("Entered TitleScene");
     }
 
     @Override
@@ -40,7 +48,7 @@ public class TitleScene extends Scene
     @Override
     public void processInputs(double secsPerFrame, Keyboard keys) 
     {
-        // TODO Auto-generated method stub
+        // TODO Auto-generaUted method stub
     }
 
     @Override
@@ -52,7 +60,25 @@ public class TitleScene extends Scene
     @Override
     public void render(Graphics2D g) 
     {
-        // TODO Auto-generated method stub
+        //this.renderTitle(g);
+        this.board.render(g);
+    }
+
+    private void renderTitle(Graphics2D g)
+    {
+        Font titleFont = new Font("Tetris", Font.PLAIN, 48);
+        g.setFont(titleFont);
+        FontMetrics fm = g.getFontMetrics();
+
+        String title = "Tetris";
+        int titleWidth = fm.stringWidth(title);
+        int titleHeight = fm.getHeight();
+
+        int screenW = Screen.getScreenWidth();
+        int titleX = (screenW - titleWidth) / 2;
+
+        g.setColor(new Color(192, 192, 192));
+        g.drawString(title, titleX, titleHeight);
     }
 
     @Override
