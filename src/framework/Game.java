@@ -206,10 +206,10 @@ public abstract class Game {
 	 * 	Handles one iteration of the game's loop, this method will process the inputs, 
 	 * 	update and render the Scene Controller and its current Scene in the game.
 	 */
-	private void gameloop( double delta )
+	private void gameloop( double secsPerFrame )
 	{
-		this.processInputs( delta );
-		this.update( delta );
+		this.processInputs( secsPerFrame );
+		this.update( secsPerFrame );
 		this.render();
 		this.sleep( this.sleepTime );
 	}

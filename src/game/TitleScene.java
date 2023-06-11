@@ -48,13 +48,16 @@ public class TitleScene extends Scene
     @Override
     public void processInputs(double secsPerFrame, Keyboard keys) 
     {
-        // TODO Auto-generaUted method stub
+        if (keys.keyDownOnce(Keyboard.SPACE))
+        {
+            this.board.rotateCurrentTetrimino();
+        }
     }
 
     @Override
     public void update(double secsPerFrame) 
     {
-        // TODO Auto-generated method stub
+        this.board.update(secsPerFrame);
     }
 
     @Override

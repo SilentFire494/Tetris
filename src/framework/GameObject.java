@@ -47,7 +47,7 @@ public abstract class GameObject {
 	 * 	Handles updating this Game Object each frame over the given length
 	 * 	of time, in seconds.
 	 */
-	public abstract void update( double delta );
+	public abstract void update( double secsPerFrame );
 	
 	/** 
 	 * 	Handles rendering the Game Object to the given Graphics each frame.

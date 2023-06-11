@@ -6,18 +6,18 @@ import java.awt.Graphics2D;
 public class TetriminoI extends Tetrimino
 {
 
-    protected TetriminoI() 
+    protected TetriminoI(Board board) 
     {
         super(new int[][] {
             { 0, 0, 0, 0 },
             { 1, 1, 1, 1 },
             { 0, 0, 0, 0 },
             { 0, 0, 0, 0 }
-        }, Color.CYAN);
+        }, Color.CYAN, board);
     }
 
     @Override
-    public void update(double delta) 
+    public void update(double secsPerFrame) 
     {
         // TODO Auto-generated method stub
     }
@@ -47,9 +47,9 @@ public class TetriminoI extends Tetrimino
     }
 
     @Override
-    public void rotate() {
+    protected int[][] getShapeForRotation(int rotation) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'rotate'");
+        throw new UnsupportedOperationException("Unimplemented method 'getShapeForRotation'");
     }
 
 }

@@ -1,6 +1,7 @@
 package game;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import framework.GameObject;
 import framework.Screen;
@@ -16,11 +17,17 @@ public class Board extends GameObject
     private static final int BOARD_ROWS = 20;
     private static final int BOARD_COLS = 10;
 
+    private Tetrimino currentTetrimino;
+    private ArrayList<Tetrimino> placedTetriminos;
+    private ArrayList<Tetrimino> futureTetriminos;
+
 
     public Board() 
     {
-        cells = new int[BOARD_ROWS][BOARD_COLS];
-        initialize();
+        this.cells = new int[BOARD_ROWS][BOARD_COLS];
+        initializeBoard();
+        this.currentTetrimino = new TetriminoL(this);
+        this.placedTetriminos = new ArrayList<Tetrimino>();
     }
 
     public int getRows() 
@@ -43,22 +50,103 @@ public class Board extends GameObject
         return this.cells[row][col];
     }
 
-    private void initialize() 
+    public void setCurrentTetrimino(Tetrimino tetrimino) 
+    {
+        this.currentTetrimino = tetrimino;
+    }
+
+    public Tetrimino getCurrentTetrimino() 
+    {
+        return this.currentTetrimino;
+    }
+
+    public ArrayList<Tetrimino> getPlacedTetriminos()
+    {
+        return this.placedTetriminos;
+    }
+
+    public void rotateCurrentTetrimino() 
+    {
+        this.currentTetrimino.rotate();
+    }
+
+    private void initializeBoard()
     {
         for (int row = 0; row < BOARD_ROWS; row++) 
         {
             for (int col = 0; col < BOARD_COLS; col++) 
             {
-                cells[row][col] = EMPTY_CELL;
+                this.cells[row][col] = EMPTY_CELL;
             }
         }
     }
 
-    @Override
-    public void update(double delta) 
+    private Tetrimino getRandomTetrimino() 
     {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        int random = (int) (Math.random() * 7);
+        switch (random) 
+        {
+            case 0:
+                return new TetriminoI(this);
+            case 1:
+                return new TetriminoJ(this);
+            case 2:
+                return new TetriminoL(this);
+            case 3:
+                return new TetriminoO(this);
+            case 4:
+                return new TetriminoS(this);
+            case 5:
+                return new TetriminoT(this);
+            case 6:
+                return new TetriminoZ(this);
+            default:
+                return new TetriminoI(this);
+        }
+    }
+
+    @Override
+    public void update(double secsPerFrame) 
+    {
+        this.updateBoard(secsPerFrame);
+    }
+
+    private void updateBoard(double secsPerFrame)
+    {
+        clearTetriminoPosition();
+
+        this.currentTetrimino.update(secsPerFrame);
+        int[][] shape = this.currentTetrimino.getShape();
+        int tetriminoRow = this.currentTetrimino.getRow();
+        int tetriminoCol = this.currentTetrimino.getCol();
+
+        for (int row = 0; row < shape.length; row++) 
+        {
+            for (int col = 0; col < shape[row].length; col++) 
+            {
+                if (shape[row][col] == FILLED_CELL) 
+                {
+                    this.setCell(tetriminoRow + row, tetriminoCol + col, FILLED_CELL);
+                }
+            }
+        }
+    }
+
+    private void clearTetriminoPosition() 
+    {
+        int[][] shape = this.currentTetrimino.getShape();
+        int tetriminoRow = this.currentTetrimino.getRow();
+        int tetriminoCol = this.currentTetrimino.getCol();
+
+        for (int row = 0; row < shape.length; row++) 
+        {
+            for (int col = 0; col < shape[row].length; col++) 
+            {
+                if (shape[row][col] == FILLED_CELL) {
+                    this.setCell(tetriminoRow + row, tetriminoCol + col, EMPTY_CELL);
+                }
+            }
+        }
     }
 
     @Override
