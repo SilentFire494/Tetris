@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 
 public class TetriminoL extends Tetrimino
 {
-
     private static final int[][] SHAPE_0 = {
         { 0, 1, 0 },
         { 0, 1, 0 },
@@ -51,25 +50,6 @@ public class TetriminoL extends Tetrimino
         // TODO Auto-generated method stub
     }
 
-    @Override
-    public void moveDown() 
-    {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void moveLeft() 
-    {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void moveRight() 
-    {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
     protected int[][] getShapeForRotation(int rotation) 
     {
         switch (rotation) {

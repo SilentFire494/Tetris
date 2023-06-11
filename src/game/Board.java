@@ -10,6 +10,8 @@ public class Board extends GameObject
 {
     private int[][] cells;
 
+    private double moveTimer;
+
     private static final int EMPTY_CELL = 0;
     private static final int FILLED_CELL = 1;
     private static final int CELL_SIZE = 20;
@@ -60,6 +62,11 @@ public class Board extends GameObject
         return this.currentTetrimino;
     }
 
+    public void addPlacedTetrimino(Tetrimino tetrimino) 
+    {
+        this.placedTetriminos.add(tetrimino);
+    }
+
     public ArrayList<Tetrimino> getPlacedTetriminos()
     {
         return this.placedTetriminos;
@@ -108,18 +115,29 @@ public class Board extends GameObject
     @Override
     public void update(double secsPerFrame) 
     {
+        this.updateCurrentTetrimino(secsPerFrame);
         this.updateBoard(secsPerFrame);
+    }
+
+        private void updateCurrentTetrimino(double secsPerFrame)
+    {
+        if (this.moveTimer >= 0.1)
+        {
+            System.out.println(this.moveTimer);
+            this.moveTimer = 0;
+                        
+            this.clearTetriminoPosition();
+            this.currentTetrimino.moveDown();
+
+            this.currentTetrimino.update(secsPerFrame);
+        }
     }
 
     private void updateBoard(double secsPerFrame)
     {
-        clearTetriminoPosition();
-
-        this.currentTetrimino.update(secsPerFrame);
         int[][] shape = this.currentTetrimino.getShape();
         int tetriminoRow = this.currentTetrimino.getRow();
         int tetriminoCol = this.currentTetrimino.getCol();
-
         for (int row = 0; row < shape.length; row++) 
         {
             for (int col = 0; col < shape[row].length; col++) 
@@ -162,7 +180,7 @@ public class Board extends GameObject
             for (int col = 0; col < BOARD_COLS; col++) 
             {
                 int cellValue = cells[row][col];
-                Color color = cellValue == EMPTY_CELL ? Color.WHITE : Color.BLUE; // Example colors, change as desired
+                Color color = cellValue == EMPTY_CELL ? Color.WHITE : this.currentTetrimino.getColor(); // Example colors, change as desired
 
                 //draw in the center of the `screen
                 int x = (Screen.getScreenWidth() - BOARD_COLS * CELL_SIZE) / 2 + col * CELL_SIZE;
@@ -175,6 +193,4 @@ public class Board extends GameObject
             }
         }
     }
-
-    // Other methods for manipulating and querying the board
 }

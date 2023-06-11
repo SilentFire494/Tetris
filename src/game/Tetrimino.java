@@ -7,9 +7,9 @@ public abstract class Tetrimino extends GameObject
 {
     private int[][] shape;
     private Color color;
-    private int row;
+    protected int row;
     private int col;
-    protected int rotation;
+    private int rotation;
     
 
     private Board board;
@@ -27,30 +27,9 @@ public abstract class Tetrimino extends GameObject
         this.rotation = 0;
     }
 
-    public int[][] getShape() 
-    {
-        return this.shape;
-    }
-
-    public Color getColor() 
-    {
-        return this.color;
-    }
-
     public int getRow() 
     {
         return this.row;
-    }
-
-    public int getCol() 
-    {
-        return this.col;
-    }
-
-    public void setBoardPosition(int row, int col)
-    {
-        this.row = row;
-        this.col = col;
     }
 
     public void setRow(int row) 
@@ -58,16 +37,41 @@ public abstract class Tetrimino extends GameObject
         this.row = row;
     }
 
+    public int getCol() 
+    {
+        return this.col;
+    }
+
     public void setCol(int col) 
     {
         this.col = col;
     }
 
-    public abstract void moveDown();
+    public Color getColor() 
+    {
+        return this.color;
+    }
 
-    public abstract void moveLeft();
+    public int[][] getShape() 
+    {
+        return this.shape;
+    }
 
-    public abstract void moveRight();
+    public  void moveLeft()
+    {
+        this.col--;
+    }
+
+
+    public  void moveRight()
+    {
+        this.col++;
+    }
+
+    public  void moveDown()
+    {
+        this.row++;
+    }
 
     public void rotate() 
     {
@@ -83,7 +87,8 @@ public abstract class Tetrimino extends GameObject
         while (isCollidingWithBounds(nextShape)) 
         {
             col--;
-            if (col < 0) {
+            if (col < 0) 
+            {
                 col = 0;
                 break;
             }
