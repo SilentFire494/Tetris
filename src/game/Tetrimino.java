@@ -69,7 +69,8 @@ public abstract class Tetrimino extends GameObject
 
     public abstract void moveRight();
 
-    public void rotate() {
+    public void rotate() 
+    {
         int nextRotation = (rotation + 90) % 360;
         int[][] nextShape = getShapeForRotation(nextRotation);
         int originalRow = row;
@@ -79,7 +80,8 @@ public abstract class Tetrimino extends GameObject
         clearTetriminoPosition();
 
         // Move the piece horizontally if it collides with the bounds after rotation
-        while (isCollidingWithBounds(nextShape)) {
+        while (isCollidingWithBounds(nextShape)) 
+        {
             col--;
             if (col < 0) {
                 col = 0;
@@ -92,7 +94,8 @@ public abstract class Tetrimino extends GameObject
         rotation = nextRotation;
 
         // Check if the new position collides with the bounds
-        if (isCollidingWithBounds(shape)) {
+        if (isCollidingWithBounds(shape)) 
+        {
             // Restore the original position if it collides
             shape = getShapeForRotation(rotation);
             row = originalRow;
@@ -103,34 +106,47 @@ public abstract class Tetrimino extends GameObject
         setTetriminoPosition();
     }
 
-    private void clearTetriminoPosition() {
-        for (int row = 0; row < shape.length; row++) {
-            for (int col = 0; col < shape[row].length; col++) {
-                if (shape[row][col] == FILLED_CELL) {
+    private void clearTetriminoPosition() 
+    {
+        for (int row = 0; row < shape.length; row++) 
+        {
+            for (int col = 0; col < shape[row].length; col++) 
+            {
+                if (shape[row][col] == FILLED_CELL) 
+                {
                     board.setCell(this.row + row, this.col + col, EMPTY_CELL);
                 }
             }
         }
     }
 
-    private void setTetriminoPosition() {
-        for (int row = 0; row < shape.length; row++) {
-            for (int col = 0; col < shape[row].length; col++) {
-                if (shape[row][col] == FILLED_CELL) {
+    private void setTetriminoPosition() 
+    {
+        for (int row = 0; row < shape.length; row++) 
+        {
+            for (int col = 0; col < shape[row].length; col++) 
+            {
+                if (shape[row][col] == FILLED_CELL) 
+                {
                     board.setCell(this.row + row, this.col + col, FILLED_CELL);
                 }
             }
         }
     }
 
-    private boolean isCollidingWithBounds(int[][] nextShape) {
-        for (int row = 0; row < nextShape.length; row++) {
-            for (int col = 0; col < nextShape[row].length; col++) {
-                if (nextShape[row][col] == FILLED_CELL) {
+    private boolean isCollidingWithBounds(int[][] nextShape) 
+    {
+        for (int row = 0; row < nextShape.length; row++) 
+        {
+            for (int col = 0; col < nextShape[row].length; col++) 
+            {
+                if (nextShape[row][col] == FILLED_CELL) 
+                {
                     int boardRow = row + this.row;
                     int boardCol = col + this.col;
 
-                    if (boardRow < 0 || boardRow >= this.board.getRows() || boardCol < 0 || boardCol >= this.board.getCols()) {
+                    if (boardRow < 0 || boardRow >= this.board.getRows() || boardCol < 0 || boardCol >= this.board.getCols()) 
+                    {
                         return true;
                     }
                 }
