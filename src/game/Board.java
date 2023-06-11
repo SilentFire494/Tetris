@@ -76,7 +76,7 @@ public class Board extends GameObject
                 int cellValue = cells[row][col];
                 Color color = cellValue == EMPTY_CELL ? Color.WHITE : Color.BLUE; // Example colors, change as desired
 
-                //draw in the center of the screen
+                //draw in the center of the `screen
                 int x = (Screen.getScreenWidth() - BOARD_COLS * CELL_SIZE) / 2 + col * CELL_SIZE;
                 int y = (Screen.getScreenHeight() - BOARD_ROWS * CELL_SIZE) / 2 + row * CELL_SIZE;
 

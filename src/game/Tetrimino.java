@@ -1,29 +1,58 @@
 package game;
+import java.awt.Color;
 
 import framework.GameObject;
 
-abstract class Tetrimino extends GameObject
+public abstract class Tetrimino extends GameObject
 {
-    protected int[][] shape;
-    protected int x;
-    protected int y;
+    private int[][] shape;
+    private Color color;
+    private int row;
+    private int col;
 
-    protected Tetrimino(int[][] shape, int x, int y)
+    protected Tetrimino(int[][] shape, Color color)
     {
         this.shape = shape;
-        this.x = x;
-        this.y = y;
+        this.color = color;
+        row = 0;
+        col = 0;
     }
+
+    public int[][] getShape() 
+    {
+        return shape;
+    }
+
+    public Color getColor() 
+    {
+        return color;
+    }
+
+    public int getRow() 
+    {
+        return row;
+    }
+
+    public int getCol() 
+    {
+        return col;
+    }
+
+    public void setRow(int row) 
+    {
+        this.row = row;
+    }
+
+    public void setCol(int col) 
+    {
+        this.col = col;
+    }
+
+    public abstract void moveDown();
+
+    public abstract void moveLeft();
+
+    public abstract void moveRight();
 
     public abstract void rotate();
-    public abstract void moveLeft();
-    public abstract void moveRight();
-    public abstract void moveFastDrop();
-    public abstract void moveSoftDrop();
-    public abstract void hold();
-
-    public int[][] getShape()
-    {
-        return this.shape;
-    }
 }
