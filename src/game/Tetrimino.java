@@ -1,23 +1,22 @@
 package game;
+
 import java.awt.Color;
 
 import framework.GameObject;
 
-public abstract class Tetrimino extends GameObject
+public abstract class Tetrimino extends GameObject 
 {
     private int[][] shape;
     private Color color;
     protected int row;
     private int col;
     private int rotation;
-    
-
     private Board board;
 
     private static final int FILLED_CELL = 1;
     private static final int EMPTY_CELL = 0;
 
-    protected Tetrimino(int[][] shape, Color color, Board board)
+    protected Tetrimino(int[][] shape, Color color, Board board) 
     {
         this.board = board;
         this.shape = shape;
@@ -57,18 +56,17 @@ public abstract class Tetrimino extends GameObject
         return this.shape;
     }
 
-    public  void moveLeft()
+    public void moveLeft() 
     {
         this.col--;
     }
 
-
-    public  void moveRight()
+    public void moveRight() 
     {
         this.col++;
     }
 
-    public  void moveDown()
+    public void moveDown() 
     {
         this.row++;
     }
@@ -99,7 +97,7 @@ public abstract class Tetrimino extends GameObject
         rotation = nextRotation;
 
         // Check if the new position collides with the bounds
-        if (isCollidingWithBounds(shape)) 
+        if (isCollidingWithBounds(shape) || isCollidingWithTetriminos()) 
         {
             // Restore the original position if it collides
             shape = getShapeForRotation(rotation);
@@ -139,7 +137,7 @@ public abstract class Tetrimino extends GameObject
         }
     }
 
-    private boolean isCollidingWithBounds(int[][] nextShape) 
+    private boolean isCollidingWithBounds(int[][] nextShape)
     {
         for (int row = 0; row < nextShape.length; row++) 
         {
@@ -151,6 +149,27 @@ public abstract class Tetrimino extends GameObject
                     int boardCol = col + this.col;
 
                     if (boardRow < 0 || boardRow >= this.board.getRows() || boardCol < 0 || boardCol >= this.board.getCols()) 
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isCollidingWithTetriminos() 
+    {
+        for (int row = 0; row < shape.length; row++) 
+        {
+            for (int col = 0; col < shape[row].length; col++) 
+            {
+                if (shape[row][col] == FILLED_CELL) 
+                {
+                    int boardRow = row + this.row;
+                    int boardCol = col + this.col;
+
+                    if (boardRow >= 0 && boardRow < this.board.getRows() && boardCol >= 0 && boardCol < this.board.getCols() && this.board.getCell(boardRow, boardCol) == FILLED_CELL) 
                     {
                         return true;
                     }

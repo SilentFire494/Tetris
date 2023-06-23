@@ -2,6 +2,7 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import framework.GameObject;
 import framework.Screen;
@@ -11,6 +12,7 @@ public class Board extends GameObject
     private int[][] cells;
 
     private double moveTimer;
+    private static final double MOVE_INTERVAL = 0.8;
 
     private static final int EMPTY_CELL = 0;
     private static final int FILLED_CELL = 1;
@@ -28,7 +30,7 @@ public class Board extends GameObject
     {
         this.cells = new int[BOARD_ROWS][BOARD_COLS];
         initializeBoard();
-        this.currentTetrimino = new TetriminoL(this);
+        this.currentTetrimino = new TetriminoI(this);
         this.placedTetriminos = new ArrayList<Tetrimino>();
     }
 
@@ -79,14 +81,12 @@ public class Board extends GameObject
 
     private void initializeBoard()
     {
-        for (int row = 0; row < BOARD_ROWS; row++) 
+        for (int[] row : cells) 
         {
-            for (int col = 0; col < BOARD_COLS; col++) 
-            {
-                this.cells[row][col] = EMPTY_CELL;
-            }
+            Arrays.fill(row, EMPTY_CELL);
         }
     }
+
 
     private Tetrimino getRandomTetrimino() 
     {
@@ -115,23 +115,86 @@ public class Board extends GameObject
     @Override
     public void update(double secsPerFrame) 
     {
-        this.updateCurrentTetrimino(secsPerFrame);
+        this.moveTimer += secsPerFrame;
+        if (this.moveTimer >= MOVE_INTERVAL) 
+        {
+            this.moveTimer -= MOVE_INTERVAL;
+            updateCurrentTetrimino(secsPerFrame);
+        }
+
         this.updateBoard(secsPerFrame);
     }
 
-        private void updateCurrentTetrimino(double secsPerFrame)
-    {
-        if (this.moveTimer >= 0.1)
-        {
-            System.out.println(this.moveTimer);
-            this.moveTimer = 0;
-                        
-            this.clearTetriminoPosition();
-            this.currentTetrimino.moveDown();
+    /*
+    private void updateCurrentTetrimino(double secsPerFrame) {
+    int[][] shape = this.currentTetrimino.getShape();
+    int tetriminoRow = this.currentTetrimino.getRow();
+    int tetriminoCol = this.currentTetrimino.getCol();
+    boolean collided = false;
 
-            this.currentTetrimino.update(secsPerFrame);
+    // Check for collision with the bottom or other filled cells
+    for (int row = 0; row < shape.length; row++) {
+        for (int col = 0; col < shape[row].length; col++) {
+            if (shape[row][col] == FILLED_CELL) {
+                int boardRow = tetriminoRow + row + 1;
+                if (boardRow >= BOARD_ROWS || this.cells[boardRow][tetriminoCol + col] == FILLED_CELL) {
+                    collided = true;
+                    break;
+                }
+            }
         }
     }
+
+    if (collided) {
+        // Add the current tetrimino to the placed tetriminos list
+        this.addPlacedTetrimino(this.currentTetrimino);
+        
+        // Check if the game is over
+        if (tetriminoRow <= 1) {
+            // Game over, handle game over logic here
+            // For example, display game over screen or restart the game
+            // You may need to reset the board and other variables
+            return;
+        }
+
+        // Spawn a new tetrimino
+        this.currentTetrimino = this.getRandomTetrimino();
+    } else {
+        // Move the current tetrimino down
+        this.clearTetriminoPosition();
+        this.currentTetrimino.moveDown();
+    }
+    
+    this.currentTetrimino.update(secsPerFrame);
+}
+*/
+
+
+    
+    private void updateCurrentTetrimino(double secsPerFrame) 
+    {
+        for (int row = 0; row < BOARD_ROWS; row++) 
+        {
+            for (int col = 0; col < BOARD_COLS; col++) 
+            {
+                if (this.cells[row][col] == FILLED_CELL) 
+                {
+                    if (row == BOARD_ROWS - 1 || this.cells[row + 1][col] == FILLED_CELL) 
+                    {
+                        this.addPlacedTetrimino(this.currentTetrimino);
+                        this.currentTetrimino = this.getRandomTetrimino();
+                        return;
+                    }
+
+                    this.clearTetriminoPosition();
+                    this.currentTetrimino.moveDown();
+                    this.currentTetrimino.update(secsPerFrame);
+                }
+            }
+        }
+    }
+    
+
 
     private void updateBoard(double secsPerFrame)
     {
@@ -149,6 +212,7 @@ public class Board extends GameObject
             }
         }
     }
+
 
     private void clearTetriminoPosition() 
     {
@@ -180,6 +244,7 @@ public class Board extends GameObject
             for (int col = 0; col < BOARD_COLS; col++) 
             {
                 int cellValue = cells[row][col];
+
                 Color color = cellValue == EMPTY_CELL ? Color.WHITE : this.currentTetrimino.getColor(); // Example colors, change as desired
 
                 //draw in the center of the `screen
