@@ -45,23 +45,6 @@ public class TetriminoI extends Tetrimino
         }, Color.CYAN, board);
     }
 
-    @Override
-    protected int[][] getShapeForRotation(int rotation) 
-    {
-        switch (rotation) 
-        {
-            case 0:
-                return shape0;
-            case 90:
-                return shape90;
-            case 180:
-                return shape180;
-            case 270:
-                return shape270;
-            default:
-                throw new IllegalArgumentException("Invalid rotation: " + rotation);
-        }
-    }
 
     @Override
     public void update(double secsPerFrame) 
@@ -72,7 +55,22 @@ public class TetriminoI extends Tetrimino
     @Override
     public void render(Graphics2D g) 
     {
-        // TODO Auto-generated method stub
+    }
+
+    protected int[][] getShapeForRotation(int rotation) 
+    {
+        switch (rotation) {
+            case 0:
+                return shape0;
+            case 90:
+                return shape90;
+            case 180:
+                return shape180;
+            case 270:
+                return shape270;
+            default:
+                return this.getShape();
+        }
     }
 
 }

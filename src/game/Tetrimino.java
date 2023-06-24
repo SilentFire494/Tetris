@@ -71,6 +71,15 @@ public abstract class Tetrimino extends GameObject
         this.row++;
     }
 
+    public void hardDrop() 
+    {
+        while (!isCollidingWithBounds(shape) && !isCollidingWithTetriminos()) 
+        {
+            row++;
+        }
+        row--;
+    }
+
     public void rotate() 
     {
         int nextRotation = (rotation + 90) % 360;
@@ -117,7 +126,7 @@ public abstract class Tetrimino extends GameObject
             {
                 if (shape[row][col] == FILLED_CELL) 
                 {
-                    board.setCell(this.row + row, this.col + col, EMPTY_CELL);
+                    board.setCell(this.row + row, this.col + col, EMPTY_CELL, Color.WHITE);
                 }
             }
         }
@@ -131,7 +140,7 @@ public abstract class Tetrimino extends GameObject
             {
                 if (shape[row][col] == FILLED_CELL) 
                 {
-                    board.setCell(this.row + row, this.col + col, FILLED_CELL);
+                    board.setCell(this.row + row, this.col + col, FILLED_CELL, this.getColor());
                 }
             }
         }
@@ -169,7 +178,7 @@ public abstract class Tetrimino extends GameObject
                     int boardRow = row + this.row;
                     int boardCol = col + this.col;
 
-                    if (boardRow >= 0 && boardRow < this.board.getRows() && boardCol >= 0 && boardCol < this.board.getCols() && this.board.getCell(boardRow, boardCol) == FILLED_CELL) 
+                    if (boardRow >= 0 && boardRow < this.board.getRows() && boardCol >= 0 && boardCol < this.board.getCols() && this.board.getCell(boardRow, boardCol).getValue() == FILLED_CELL) 
                     {
                         return true;
                     }

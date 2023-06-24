@@ -48,13 +48,11 @@ public class TetriminoT extends Tetrimino
     @Override
     public void render(Graphics2D g) 
     {
-        // TODO Auto-generated method stub
     }
 
-    @Override
-    protected int[][] getShapeForRotation(int rotation) {
-        switch (rotation) 
-        {
+    protected int[][] getShapeForRotation(int rotation) 
+    {
+        switch (rotation) {
             case 0:
                 return shape0;
             case 90:
@@ -64,7 +62,7 @@ public class TetriminoT extends Tetrimino
             case 270:
                 return shape270;
             default:
-                throw new IllegalArgumentException("Invalid rotation: " + rotation);
+            return this.getShape();
         }
     }
     

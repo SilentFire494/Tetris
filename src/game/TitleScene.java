@@ -52,6 +52,18 @@ public class TitleScene extends Scene
         {
             this.board.rotateCurrentTetrimino();
         }
+        if (keys.keyDownOnce(Keyboard.LEFT))
+        {
+            this.board.moveCurrentTetriminoLeft();
+        }
+        if (keys.keyDownOnce(Keyboard.RIGHT))
+        {
+            this.board.moveCurrentTetriminoRight();
+        }
+        if (keys.keyDownOnce(Keyboard.DOWN))
+        {
+            this.board.hardDropCurrentTetrimino();
+        }
     }
 
     @Override
